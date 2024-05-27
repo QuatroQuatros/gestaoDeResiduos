@@ -29,7 +29,7 @@ public class BairroController {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<Page<BairroExibicaoDto>> listarBairros(Pageable paginacao){
+    public BaseResponseDto<Page<BairroExibicaoDto>> listar(Pageable paginacao){
         return new BaseResponseDto<>(
                 "busca de bairros feita com sucesso!",
                 service.listarTodos(paginacao)
@@ -38,7 +38,7 @@ public class BairroController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<BairroExibicaoDto> buscarBairroPorId(@PathVariable Long id){
+    public BaseResponseDto<BairroExibicaoDto> buscarPorId(@PathVariable Long id){
         try{
             return new BaseResponseDto<>(
                     "busca de bairro feita com sucesso!",
@@ -74,7 +74,7 @@ public class BairroController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<Object> excluir(@PathVariable Long id){
+    public BaseResponseDto<BairroExibicaoDto> excluir(@PathVariable Long id){
         try {
             service.excluir(id);
             return new BaseResponseDto<>("bairro excluido com sucesso");

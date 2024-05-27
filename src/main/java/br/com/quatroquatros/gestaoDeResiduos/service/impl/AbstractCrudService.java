@@ -4,6 +4,7 @@ import br.com.quatroquatros.gestaoDeResiduos.dto.BaseResponseDto;
 import br.com.quatroquatros.gestaoDeResiduos.exception.ModelNotFoundException;
 import br.com.quatroquatros.gestaoDeResiduos.interfaces.CRUDInterface;
 import br.com.quatroquatros.gestaoDeResiduos.service.auth.AuthService;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,12 +37,14 @@ public abstract class AbstractCrudService<T, ID, Dto, UpdateDto, ExibicaoDto> im
         }
     }
 
+    @Transactional
     @Override
     public ExibicaoDto gravar(Dto dto) {
         T entity = toEntity(dto);
         return toExibicaoDto(getRepository().save(entity));
     }
 
+    @Transactional
     @Override
     public ExibicaoDto atualizar(ID id, UpdateDto updateDto) throws ModelNotFoundException {
         Optional<T> entityOptional = getRepository().findById(id);
@@ -54,6 +57,7 @@ public abstract class AbstractCrudService<T, ID, Dto, UpdateDto, ExibicaoDto> im
         }
     }
 
+    @Transactional
     @Override
     public void excluir(ID id) {
         if (!getRepository().existsById(id)) {

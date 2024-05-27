@@ -1,0 +1,11 @@
+CREATE SEQUENCE LIXO_COLETADO_SEQ;
+
+CREATE TABLE LIXO_COLETADO (
+                               ID INTEGER DEFAULT LIXO_COLETADO_SEQ.NEXTVAL NOT NULL,
+                               ID_COLETA_RUA INTEGER NOT NULL,
+                               QUANTIDADE NUMBER NOT NULL,
+                               CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                               UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                               PRIMARY KEY(ID),
+                               CONSTRAINT FK_LIXO_COLETADO_1 FOREIGN KEY (ID_COLETA_RUA) REFERENCES COLETAS_RUAS (ID)
+);
