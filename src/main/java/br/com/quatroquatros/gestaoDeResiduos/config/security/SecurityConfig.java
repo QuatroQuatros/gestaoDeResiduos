@@ -31,18 +31,20 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "api/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/auth/login").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "api/contatos").hasAnyRole("ADMIN", "USER")
-//                        .requestMatchers(HttpMethod.POST, "api/contatos").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.PUT, "/api/contatos").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.DELETE, "/api/contatos").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "api/teste").permitAll()
                         .anyRequest()
                         .authenticated())
                 .addFilterBefore(
                         verifyToken, UsernamePasswordAuthenticationFilter.class
                 )
                 .build();
-
     }
+
+
+    //                        .requestMatchers(HttpMethod.GET, "api/contatos").hasAnyRole("ADMIN", "USER")
+//                        .requestMatchers(HttpMethod.POST, "api/contatos").hasRole("ADMIN")
+//                        .requestMatchers(HttpMethod.PUT, "/api/contatos").hasRole("ADMIN")
+//                        .requestMatchers(HttpMethod.DELETE, "/api/contatos").hasRole("ADMIN")
 
     @Bean
     public AuthenticationManager authManager(AuthenticationConfiguration authConfig) throws Exception{

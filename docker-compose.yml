@@ -3,39 +3,49 @@ version: '3.8'
 services:
   oracle-db:
     image: container-registry.oracle.com/database/free:latest
-    # image: container-registry.oracle.com/database/enterprise:latest
     environment:
+      - ORACLE_BASE=/opt/oracle
       - ORACLE_SID=FREE
-      - ORACLE_PDB=BATATA
+      - ORACLE_PDB=batata
       - ORACLE_PWD=batata123
 
     ports:
       - 1521:1521
     networks:
       - backend
-    # volumes:
-    #   - oracle-data:/opt/oracle/oradata
-    #   - oracle-backup:/opt/oracle/backup
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'SELECT 1 FROM dual;' | sqlplus c##batata/batata123@oracle-db:1521/FREE as sysdba"]
+      interval: 30s
+      timeout: 30s
+      retries: 10
+    volumes:
+        - ./dockerScripts/createUserDB.sql:/opt/oracle/scripts/startup/createUserDB.sql
+        - oracle-data:/opt/oracle/oradata
+        - oracle-backup:/opt/oracle/backup
 
   spring-api:
     build:
       context: .
       dockerfile: Dockerfile
-    # volumes:
-    #   - .:/app
+
     ports:
       - "8080:8080"
     networks:
       - backend
     depends_on:
-      - oracle-db
-  # volumes:
-  #   oracle-data:
-  #   oracle-backup:
+      oracle-db:
+       condition: service_healthy
+    # volumes:
+    #   - .:/app
+    #   - ~/.m2:/root/.m2
 
-
+volumes:
+  oracle-data:
+  oracle-backup:
 
 networks:
   backend:
     name: backend
     driver: bridge
+
+

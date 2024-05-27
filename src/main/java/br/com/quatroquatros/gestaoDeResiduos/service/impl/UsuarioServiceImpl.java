@@ -54,4 +54,16 @@ public class UsuarioServiceImpl extends AbstractCrudService<Usuario, Long, Usuar
         return usuario;
     }
 
+    @Override
+    public UsuarioExibicaoDto gravar(UsuarioCadastroDto usuarioDados){
+        String senhaHash = new BCryptPasswordEncoder().encode(usuarioDados.senha());
+
+        Usuario usuario = new Usuario();
+        BeanUtils.copyProperties(usuarioDados, usuario);
+        usuario.setSenha(senhaHash);
+
+        return new UsuarioExibicaoDto(usuarioRepository.save(usuario));
+    }
+
+
 }

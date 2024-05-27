@@ -20,6 +20,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -88,13 +89,19 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<finalName>gestaoDeResiduos</finalName>
+					<!-- <finalName>gestaoDeResiduos</finalName> -->
+					<excludeDevtools>false</excludeDevtools>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<archive>
+						<manifest>
+							<mainClass>br.com.quatroquatros.gestaoDeResiduos.GestaoDeResiduosApplication</mainClass>
+						</manifest>
+                	</archive>
 				</configuration>
 			</plugin>
 		</plugins>
