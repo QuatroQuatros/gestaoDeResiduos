@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record UsuarioCadastroDto(
-        Long usuarioId,
 
         @NotBlank(message = "O nome do usuário é obrigatório!")
         String nome,
@@ -22,11 +21,4 @@ public record UsuarioCadastroDto(
 
         UsuarioRole role
 ) {
-//        public UsuarioCadastroDto(Usuario usuarioMock) {
-//                usuarioId = usuarioMock.getUsuarioId();
-//                nome = usuarioMock.getNome();
-//                email = usuarioMock.getEmail();
-//                senha = usuarioMock.getSenha();
-//                role = usuarioMock.getRole();
-//        }
 }

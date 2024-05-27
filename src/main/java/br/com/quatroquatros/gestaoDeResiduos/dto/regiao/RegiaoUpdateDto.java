@@ -1,9 +1,16 @@
 package br.com.quatroquatros.gestaoDeResiduos.dto.regiao;
 
-import jakarta.validation.constraints.NotBlank;
+import br.com.quatroquatros.gestaoDeResiduos.dto.validations.Exists;
+import br.com.quatroquatros.gestaoDeResiduos.model.Estado;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record RegiaoUpdateDto(
-        @NotBlank(message = "O nome da região é obrigatória!")
+
+        @Exists(entity = Estado.class, message = "O id da região não existe!")
+        Long estadoId,
+
         String nome
 ) {
 }

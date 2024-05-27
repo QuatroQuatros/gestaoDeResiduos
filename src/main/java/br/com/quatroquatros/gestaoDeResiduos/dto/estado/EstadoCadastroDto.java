@@ -4,9 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record EstadoCadastroDto(
-
-        Long estadoId,
-
         @NotBlank(message = "O nome do estado é obrigatório!")
         String nome,
 
