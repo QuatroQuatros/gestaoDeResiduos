@@ -3,6 +3,7 @@ package br.com.quatroquatros.gestaoDeResiduos.service.impl;
 import br.com.quatroquatros.gestaoDeResiduos.dto.BaseResponseDto;
 import br.com.quatroquatros.gestaoDeResiduos.exception.ModelNotFoundException;
 import br.com.quatroquatros.gestaoDeResiduos.interfaces.CRUDInterface;
+import br.com.quatroquatros.gestaoDeResiduos.service.auth.AuthService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

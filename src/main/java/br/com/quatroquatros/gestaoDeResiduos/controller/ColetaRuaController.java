@@ -2,101 +2,88 @@ package br.com.quatroquatros.gestaoDeResiduos.controller;
 
 
 import br.com.quatroquatros.gestaoDeResiduos.dto.BaseResponseDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.coletaRua.ColetaRuaCadastroDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.coletaRua.ColetaRuaExibicaoDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.coletaRua.ColetaRuaUpdateDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoCadastroDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoExibicaoDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoUpdateDto;
 import br.com.quatroquatros.gestaoDeResiduos.exception.ModelNotFoundException;
+import br.com.quatroquatros.gestaoDeResiduos.service.ColetaRuaService;
 import br.com.quatroquatros.gestaoDeResiduos.service.EstadoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/estados")
-public class EstadoController {
+@RequestMapping("/api/coletas")
+public class ColetaRuaController {
 
 
-    private final EstadoService service;
+    private final ColetaRuaService service;
 
     @Autowired
-    public EstadoController(EstadoService service) {
+    public ColetaRuaController(ColetaRuaService service) {
         this.service = service;
     }
 
-
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<Page<EstadoExibicaoDto>> listarEstados(Pageable paginacao){
+    public BaseResponseDto<Page<ColetaRuaExibicaoDto>> listar(Pageable paginacao){
         return new BaseResponseDto<>(
-                "busca de estados feita com sucesso!",
+                "busca de coletas feita com sucesso!",
                 service.listarTodos(paginacao)
         );
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<EstadoExibicaoDto> buscarEstadoPorId(@PathVariable Long id){
+    public BaseResponseDto<ColetaRuaExibicaoDto> buscarPorId(@PathVariable Long id){
         try{
             return new BaseResponseDto<>(
-                    "busca de estado feita com sucesso!",
+                    "busca de coleta feita com sucesso!",
                     service.buscarPorId(id)
             );
         }catch (ModelNotFoundException e){
-            throw new ModelNotFoundException("estado não encontrado");
+            throw new ModelNotFoundException("coleta não encontrada");
         }
 
     }
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public BaseResponseDto<EstadoExibicaoDto> gravar(@RequestBody @Valid EstadoCadastroDto estadoDados){
+    public BaseResponseDto<Object> gravar(@RequestBody @Valid ColetaRuaCadastroDto coletaRuaDados){
         return new BaseResponseDto<>(
-                "estado cadastrado com sucesso!",
-                service.gravar(estadoDados)
+                "coleta cadastrada com sucesso!",
+                service.gravar(coletaRuaDados)
         );
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<EstadoExibicaoDto> atualizar(@PathVariable Long id, @RequestBody @Valid EstadoUpdateDto estadoDados){
+    public BaseResponseDto<ColetaRuaExibicaoDto> atualizar(@PathVariable Long id, @RequestBody @Valid ColetaRuaUpdateDto coletaRuaDados){
         try {
             return new BaseResponseDto<>(
-                    "estado atualizado com sucesso!",
-                    service.atualizar(id, estadoDados)
+                    "coleta atualizada com sucesso!",
+                    service.atualizar(id, coletaRuaDados)
             );
         } catch (ModelNotFoundException e) {
-            throw new ModelNotFoundException("estado não encontrado");
-
+            throw new ModelNotFoundException("coleta não encontrada");
         }
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public BaseResponseDto<Object> excluir(@PathVariable Long id){
+    public BaseResponseDto<ColetaRuaExibicaoDto> excluir(@PathVariable Long id){
         try {
             service.excluir(id);
-            return new BaseResponseDto<>("estado excluido com sucesso");
+            return new BaseResponseDto<>("coleta excluida com sucesso");
         } catch (ModelNotFoundException e) {
-            throw new ModelNotFoundException("estado não encontrado");
-
+            throw new ModelNotFoundException("coleta não encontrada");
         }
     }
-
-    @GetMapping("/uf/{uf}")
-    @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<EstadoExibicaoDto> buscarEstadoPorUF(@PathVariable String uf){
-        try {
-                return service.buscarEstadoPorUF(uf);
-
-        } catch (ModelNotFoundException e) {
-            throw new ModelNotFoundException("estado não encontrado");
-
-        }
-
-
-    }
-
 }
