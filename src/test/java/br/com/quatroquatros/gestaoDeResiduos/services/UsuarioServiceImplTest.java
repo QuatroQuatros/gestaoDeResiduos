@@ -1,8 +1,6 @@
 package br.com.quatroquatros.gestaoDeResiduos.services;
 
 
-import br.com.quatroquatros.gestaoDeResiduos.dto.BaseResponseDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.usuario.UsuarioCadastroDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.usuario.UsuarioExibicaoDto;
 import br.com.quatroquatros.gestaoDeResiduos.model.Usuario;
 import br.com.quatroquatros.gestaoDeResiduos.repository.UsuarioRepository;

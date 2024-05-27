@@ -1,6 +1,6 @@
 package br.com.quatroquatros.gestaoDeResiduos.dto.regiao;
 
-import br.com.quatroquatros.gestaoDeResiduos.dto.validations.Exists;
+import br.com.quatroquatros.gestaoDeResiduos.validators.Exists;
 import br.com.quatroquatros.gestaoDeResiduos.model.Estado;
 import com.fasterxml.jackson.annotation.JsonInclude;
 

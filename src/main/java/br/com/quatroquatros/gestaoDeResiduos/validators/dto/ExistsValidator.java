@@ -1,6 +1,6 @@
-package br.com.quatroquatros.gestaoDeResiduos.dto.validations.validators;
+package br.com.quatroquatros.gestaoDeResiduos.validators.dto;
 
-import br.com.quatroquatros.gestaoDeResiduos.dto.validations.Exists;
+import br.com.quatroquatros.gestaoDeResiduos.validators.Exists;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.ConstraintValidator;

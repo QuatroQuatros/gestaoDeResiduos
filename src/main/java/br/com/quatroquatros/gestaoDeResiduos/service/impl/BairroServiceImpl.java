@@ -39,9 +39,5 @@ public class BairroServiceImpl extends AbstractCrudService<Bairro, Long, BairroC
         bairro.setNome(bairroDados.nome());
         return bairro;
 
-//        if (bairroRepository.existsByUf(bairroDados.uf())) {
-//            throw new DataIntegrityViolationException("já existe um estado cadastrado com a UF fornecida.");
-//        }
-//        bairro.setUf(estadoDados.uf());
     }
 }
