@@ -61,7 +61,7 @@ public class BairroController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<BairroExibicaoDto> atualizar(@PathVariable Long id, @RequestBody BairroUpdateDto bairroDados){
+    public BaseResponseDto<BairroExibicaoDto> atualizar(@PathVariable Long id, @RequestBody @Valid BairroUpdateDto bairroDados){
         try {
             return new BaseResponseDto<>(
                     "bairro atualizado com sucesso!",

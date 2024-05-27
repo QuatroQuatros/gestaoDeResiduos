@@ -64,7 +64,7 @@ public class RegiaoController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<RegiaoExibicaoDto> atualizar(@PathVariable Long id, @RequestBody RegiaoUpdateDto regiaoDados){
+    public BaseResponseDto<RegiaoExibicaoDto> atualizar(@PathVariable Long id, @RequestBody @Valid RegiaoUpdateDto regiaoDados){
         try {
             return new BaseResponseDto<>(
                         "região atualizada com sucesso!",

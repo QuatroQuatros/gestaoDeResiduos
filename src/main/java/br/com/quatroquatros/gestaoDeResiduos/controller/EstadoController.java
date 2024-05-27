@@ -61,7 +61,7 @@ public class EstadoController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<EstadoExibicaoDto> atualizar(@PathVariable Long id, @RequestBody EstadoUpdateDto estadoDados){
+    public BaseResponseDto<EstadoExibicaoDto> atualizar(@PathVariable Long id, @RequestBody @Valid EstadoUpdateDto estadoDados){
         try {
             return new BaseResponseDto<>(
                     "estado atualizado com sucesso!",

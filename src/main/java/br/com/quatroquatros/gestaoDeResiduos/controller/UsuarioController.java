@@ -60,7 +60,7 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<UsuarioExibicaoDto> atualizar(@PathVariable Long id, @RequestBody UsuarioUpdateDto usuario){
+    public BaseResponseDto<UsuarioExibicaoDto> atualizar(@PathVariable Long id, @RequestBody @Valid UsuarioUpdateDto usuario){
         try{
             return new BaseResponseDto<>(
                     "usuário atualizado com sucesso!",
