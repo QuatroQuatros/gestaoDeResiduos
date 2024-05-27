@@ -89,7 +89,10 @@ public class EstadoController {
     @ResponseStatus(HttpStatus.OK)
     public BaseResponseDto<EstadoExibicaoDto> buscarEstadoPorUF(@PathVariable String uf){
         try {
-                return service.buscarEstadoPorUF(uf);
+            return new BaseResponseDto<>(
+                    "busca de estado pela UF feita com sucesso!",
+                    service.buscarEstadoPorUF(uf)
+            );
 
         } catch (ModelNotFoundException e) {
             throw new ModelNotFoundException("estado não encontrado");

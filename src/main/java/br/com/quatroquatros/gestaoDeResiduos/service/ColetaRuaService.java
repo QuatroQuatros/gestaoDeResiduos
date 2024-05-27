@@ -9,4 +9,6 @@ import br.com.quatroquatros.gestaoDeResiduos.model.ColetaRua;
 public interface ColetaRuaService extends CRUDInterface<ColetaRua, Long, ColetaRuaCadastroDto, ColetaRuaUpdateDto, ColetaRuaExibicaoDto> {
     //TODO: Adicionar metodos
 
+
+
 }

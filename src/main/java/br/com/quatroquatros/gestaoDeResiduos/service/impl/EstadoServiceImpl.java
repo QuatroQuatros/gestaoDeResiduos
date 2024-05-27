@@ -15,6 +15,7 @@ import br.com.quatroquatros.gestaoDeResiduos.model.Regiao;
 import br.com.quatroquatros.gestaoDeResiduos.model.Usuario;
 import br.com.quatroquatros.gestaoDeResiduos.repository.EstadoRepository;
 import br.com.quatroquatros.gestaoDeResiduos.service.EstadoService;
+import br.com.quatroquatros.gestaoDeResiduos.validators.UFValidator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -61,15 +62,17 @@ public class EstadoServiceImpl extends AbstractCrudService<Estado, Long, EstadoC
     }
 
     @Override
-    public BaseResponseDto<EstadoExibicaoDto> buscarEstadoPorUF(String uf) {
+    public EstadoExibicaoDto buscarEstadoPorUF(String uf) throws ModelNotFoundException {
+
+        if (!UFValidator.validarUF(uf)) {
+            throw new IllegalArgumentException("a UF fornecida é inválida!");
+        }
+
         Optional<Estado> estadoOptional = estadoRepository.findByUf(uf);
         if (estadoOptional.isPresent()) {
-            return new BaseResponseDto<>(
-                    "busca de estado pela UF feita com sucesso!",
-                    new EstadoExibicaoDto(estadoOptional.get())
-            );
+            return new EstadoExibicaoDto(estadoOptional.get());
         } else {
-            throw new ModelNotFoundException("estado não encontrado");
+            throw new ModelNotFoundException("estado não encontrado!");
         }
     }
 

@@ -8,6 +8,7 @@ import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoUpdateDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.usuario.UsuarioCadastroDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.usuario.UsuarioExibicaoDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.usuario.UsuarioUpdateDto;
+import br.com.quatroquatros.gestaoDeResiduos.exception.ModelNotFoundException;
 import br.com.quatroquatros.gestaoDeResiduos.interfaces.CRUDInterface;
 import br.com.quatroquatros.gestaoDeResiduos.model.Estado;
 import br.com.quatroquatros.gestaoDeResiduos.model.Usuario;
@@ -15,5 +16,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface EstadoService extends CRUDInterface<Estado, Long, EstadoCadastroDto, EstadoUpdateDto, EstadoExibicaoDto> {
-    BaseResponseDto<EstadoExibicaoDto> buscarEstadoPorUF(String uf);
+    EstadoExibicaoDto buscarEstadoPorUF(String uf) throws ModelNotFoundException;
 }

@@ -46,5 +46,16 @@ public class ApplicationExceptionHandler {
 
         return  errorMap;
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public Map<String, String> handleIllegalArgument(IllegalArgumentException error){
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("erro", error.getMessage());
+
+        return  errorMap;
+    }
+
+
 }
 
