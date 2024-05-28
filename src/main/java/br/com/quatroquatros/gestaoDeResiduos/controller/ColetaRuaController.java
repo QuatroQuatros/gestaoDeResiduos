@@ -57,7 +57,7 @@ public class ColetaRuaController {
 
     @PostMapping("/agendar")
     @ResponseStatus(HttpStatus.CREATED)
-    public BaseResponseDto<Object> gravar(@RequestBody @Valid ColetaRuaCadastroDto coletaRuaDados){
+    public BaseResponseDto<Object> agendar(@RequestBody @Valid ColetaRuaCadastroDto coletaRuaDados){
         return new BaseResponseDto<>(
                 "agendamento feito sucesso!",
                 service.gravar(coletaRuaDados)
