@@ -3,6 +3,7 @@ package br.com.quatroquatros.gestaoDeResiduos.advice;
 import br.com.quatroquatros.gestaoDeResiduos.exception.ModelNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -55,6 +56,15 @@ public class ApplicationExceptionHandler {
 
         return  errorMap;
     }
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AccessDeniedException.class)
+    public Map<String, String> handleAccessDenied(AccessDeniedException error){
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("erro", error.getMessage());
+
+        return  errorMap;
+    }
+
 
 
 }

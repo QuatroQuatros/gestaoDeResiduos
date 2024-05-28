@@ -92,7 +92,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "api/usuarios").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "api/usuarios/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "api/usuarios").hasRole("ADMIN")
-                        //TODO: fazer verificação nesses casos quando a role for USER, bloquear a tentativa caso o id do usuario logado for diferente do id da exclusão ou deleção.
                         .requestMatchers(HttpMethod.PUT, "/api/usuarios/{id}").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.DELETE, "/api/usuarios/{id}").hasAnyRole("ADMIN", "USER")
 
