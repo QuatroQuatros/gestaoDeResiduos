@@ -2,9 +2,7 @@ package br.com.quatroquatros.gestaoDeResiduos.service.impl;
 
 import br.com.quatroquatros.gestaoDeResiduos.dto.BaseResponseDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoExibicaoDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.regiao.RegiaoCadastroDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.regiao.RegiaoExibicaoDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.regiao.RegiaoUpdateDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.regiao.*;
 import br.com.quatroquatros.gestaoDeResiduos.exception.ModelNotFoundException;
 import br.com.quatroquatros.gestaoDeResiduos.model.Estado;
 import br.com.quatroquatros.gestaoDeResiduos.model.Regiao;
@@ -19,6 +17,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -58,14 +58,25 @@ public class RegiaoServiceImpl extends AbstractCrudService<Regiao, Long, RegiaoC
     @Override
     protected Regiao updateEntity(Regiao regiao, RegiaoUpdateDto regiaoDados) {
         regiao.setNome(regiaoDados.nome());
-//        Optional<Estado> estadoOptional = estadoRepository.findById(regiaoCadastroDto.estadoId());
-//        if (estadoOptional.isPresent()) {
-//            regiao.setEstado(estadoOptional.get());
-//        } else {
-//            throw new ModelNotFoundException("região não encontrada");
-//        }
         regiao.setUpdatedAt(LocalDateTime.now());
         return regiao;
+    }
+
+    @Override
+    public List<RegiaoMaisLixoExibicaoDto[]> regiaoMaisLixo(RegiaoMaisLixoDto regiaoMaisLixoDto) {
+        List<RegiaoMaisLixoExibicaoDto[]> regioes = new ArrayList<>();
+
+        List<Object[]> queryResult = regiaoRepository.regiaoMaisLixo(
+                regiaoMaisLixoDto.regiaoId(),
+                regiaoMaisLixoDto.tipoColetaId()
+        );
+        for (Object[] row : queryResult) {
+            Double quantidade = (Double) row[0];
+            String regiao = (String) row[1];
+            String tipoLixo = (String) row[2];
+            regioes.add(new RegiaoMaisLixoExibicaoDto[]{new RegiaoMaisLixoExibicaoDto(quantidade, regiao, tipoLixo)});
+        }
+        return regioes;
     }
 
 }

@@ -67,6 +67,7 @@ public class SecurityConfig {
                         //Regioes
                         .requestMatchers(HttpMethod.GET, "api/regioes").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.GET, "api/regioes/{id}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/api/regioes/maisLixo").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.POST, "api/regioes").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/regioes/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/regioes/{id}").hasRole("ADMIN")
@@ -93,7 +94,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/usuarios/{id}").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.DELETE, "/api/usuarios/{id}").hasAnyRole("ADMIN", "USER")
 
-                        
+
                         .anyRequest()
                         .authenticated())
                 .addFilterBefore(

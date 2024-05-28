@@ -1,9 +1,9 @@
 package br.com.quatroquatros.gestaoDeResiduos.controller;
 
 import br.com.quatroquatros.gestaoDeResiduos.dto.BaseResponseDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.regiao.RegiaoCadastroDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.regiao.RegiaoExibicaoDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.regiao.RegiaoUpdateDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoMaisLixoDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoMaisLixoExibicaoDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.regiao.*;
 import br.com.quatroquatros.gestaoDeResiduos.dto.usuario.UsuarioCadastroDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.usuario.UsuarioExibicaoDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.usuario.UsuarioUpdateDto;
@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/regioes")
@@ -86,4 +88,11 @@ public class RegiaoController {
 
         }
     }
+    @PostMapping("/maisLixo")
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponseDto<List<RegiaoMaisLixoExibicaoDto[]>> buscarRegiaoMaisLixo(@RequestBody @Valid RegiaoMaisLixoDto regiaoMaisLixoDto){
+        List<RegiaoMaisLixoExibicaoDto[]> resultado = service.regiaoMaisLixo(regiaoMaisLixoDto);
+        return new BaseResponseDto<>("busca de regiões que geraram mais lixo feita com sucesso!", resultado);
+    }
+
 }
