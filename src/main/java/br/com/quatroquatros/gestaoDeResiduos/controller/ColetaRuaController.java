@@ -3,6 +3,7 @@ package br.com.quatroquatros.gestaoDeResiduos.controller;
 
 import br.com.quatroquatros.gestaoDeResiduos.dto.BaseResponseDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.coletaRua.ColetaRuaCadastroDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.coletaRua.ColetaRuaConcluidaDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.coletaRua.ColetaRuaExibicaoDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.coletaRua.ColetaRuaUpdateDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoCadastroDto;
@@ -54,11 +55,11 @@ public class ColetaRuaController {
 
     }
 
-    @PostMapping("")
+    @PostMapping("/agendar")
     @ResponseStatus(HttpStatus.CREATED)
     public BaseResponseDto<Object> gravar(@RequestBody @Valid ColetaRuaCadastroDto coletaRuaDados){
         return new BaseResponseDto<>(
-                "coleta cadastrada com sucesso!",
+                "agendamento feito sucesso!",
                 service.gravar(coletaRuaDados)
         );
     }
@@ -82,6 +83,19 @@ public class ColetaRuaController {
         try {
             service.excluir(id);
             return new BaseResponseDto<>("coleta excluida com sucesso");
+        } catch (ModelNotFoundException e) {
+            throw new ModelNotFoundException("coleta não encontrada");
+        }
+    }
+
+    @PostMapping("/{coletaId}/concluir")
+    @ResponseStatus(HttpStatus.CREATED)
+    public BaseResponseDto<ColetaRuaExibicaoDto> concluirColeta(@PathVariable Long coletaId, @RequestBody @Valid ColetaRuaConcluidaDto dados){
+        try {
+            return new BaseResponseDto<>(
+                    "coleta concluida com sucesso!",
+                    service.marcarColetaComoConcluida(coletaId, dados)
+            );
         } catch (ModelNotFoundException e) {
             throw new ModelNotFoundException("coleta não encontrada");
         }

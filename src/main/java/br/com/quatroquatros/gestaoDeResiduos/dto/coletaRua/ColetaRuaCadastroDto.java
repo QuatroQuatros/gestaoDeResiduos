@@ -21,6 +21,7 @@ public record ColetaRuaCadastroDto(
 
         LocalDate dataAgendamento,
 
+        @NotNull(message = "A data da coleta não pode ser nula")
         LocalDate dataColeta,
 
         ColetaDiaStatus status

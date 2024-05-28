@@ -22,7 +22,6 @@ public record ColetaRuaUpdateDto(
 
         LocalDate dataAgendamento,
 
-
         LocalDate dataColeta,
 
         ColetaDiaStatus status

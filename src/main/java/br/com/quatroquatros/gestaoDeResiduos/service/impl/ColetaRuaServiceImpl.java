@@ -3,13 +3,18 @@ package br.com.quatroquatros.gestaoDeResiduos.service.impl;
 
 
 import br.com.quatroquatros.gestaoDeResiduos.dto.coletaRua.ColetaRuaCadastroDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.coletaRua.ColetaRuaConcluidaDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.coletaRua.ColetaRuaExibicaoDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.coletaRua.ColetaRuaUpdateDto;
+import br.com.quatroquatros.gestaoDeResiduos.exception.ModelNotFoundException;
 import br.com.quatroquatros.gestaoDeResiduos.model.ColetaRua;
+import br.com.quatroquatros.gestaoDeResiduos.model.LixoColetado;
 import br.com.quatroquatros.gestaoDeResiduos.model.valueObject.ColetaDiaStatus;
 import br.com.quatroquatros.gestaoDeResiduos.repository.ColetaRuaRepository;
+import br.com.quatroquatros.gestaoDeResiduos.repository.LixoColetadoRepository;
 import br.com.quatroquatros.gestaoDeResiduos.service.ColetaRuaService;
 import br.com.quatroquatros.gestaoDeResiduos.helpers.AuthHelpers;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,10 +29,15 @@ public class ColetaRuaServiceImpl extends AbstractCrudService<ColetaRua, Long, C
 
     @Autowired
     private ColetaRuaRepository coletaRuaRepository;
+
+    @Autowired
+    private LixoColetadoRepository lixoColetadoRepository;
+
     @Override
     protected JpaRepository<ColetaRua, Long> getRepository() {
         return coletaRuaRepository;
     }
+
 
     @Override
     protected ColetaRuaExibicaoDto toExibicaoDto(ColetaRua coletaRua) {
@@ -52,8 +62,13 @@ public class ColetaRuaServiceImpl extends AbstractCrudService<ColetaRua, Long, C
     }
 
     @Override
+    @Transactional
     public ColetaRuaExibicaoDto gravar(ColetaRuaCadastroDto coletaRuaDados) {
         ColetaRua coletaRua = toEntity(coletaRuaDados);
+
+        if (coletaRuaDados.dataColeta().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("A data da coleta não pode estar no passado.");
+        }
 
         AuthHelpers authHelpers = new AuthHelpers();
 
@@ -61,9 +76,24 @@ public class ColetaRuaServiceImpl extends AbstractCrudService<ColetaRua, Long, C
         coletaRua.setRuaId(coletaRuaDados.ruaId());
         coletaRua.setTipoColetaId(coletaRuaDados.tipoColetaId());
         coletaRua.setDataAgendamento(LocalDate.now());
-        coletaRua.setStatus(ColetaDiaStatus.PENDENTE);
+        coletaRua.setStatus(ColetaDiaStatus.AGENDADO);
 
         return toExibicaoDto(getRepository().save(coletaRua));
     }
 
+    @Override
+    public ColetaRuaExibicaoDto marcarColetaComoConcluida(Long idColeta, ColetaRuaConcluidaDto coletaRuaConcluidaDados) {
+        int coletaRua = coletaRuaRepository.marcarColetaConcluida(idColeta);
+        if (coletaRua == 0) {
+            throw new ModelNotFoundException("A coleta não existe.");
+        }
+        LixoColetado lixoColetado = new LixoColetado();
+        lixoColetado.setColetaRuaId(idColeta);
+        lixoColetado.setQuantidade(coletaRuaConcluidaDados.quantidade());
+        //TODO: retornar DTO do LixoColetado
+        lixoColetadoRepository.save(lixoColetado);
+        return this.buscarPorId(idColeta);
+
+
+    }
 }

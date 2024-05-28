@@ -29,7 +29,7 @@ public class EstadoController {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<Page<EstadoExibicaoDto>> listarEstados(Pageable paginacao){
+    public BaseResponseDto<Page<EstadoExibicaoDto>> listar(Pageable paginacao){
         return new BaseResponseDto<>(
                 "busca de estados feita com sucesso!",
                 service.listarTodos(paginacao)
@@ -38,7 +38,7 @@ public class EstadoController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<EstadoExibicaoDto> buscarEstadoPorId(@PathVariable Long id){
+    public BaseResponseDto<EstadoExibicaoDto> buscarPorId(@PathVariable Long id){
         try{
             return new BaseResponseDto<>(
                     "busca de estado feita com sucesso!",

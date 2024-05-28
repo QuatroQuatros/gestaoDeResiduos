@@ -2,7 +2,7 @@ package br.com.quatroquatros.gestaoDeResiduos.model.valueObject;
 
 public enum ColetaDiaStatus {
 
-    PENDENTE(0),
+    AGENDADO(0),
     EM_ANDAMENTO(1),
     CONCLUIDO(2),
     CANCELADO(3);
