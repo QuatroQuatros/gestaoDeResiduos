@@ -1,9 +1,9 @@
 package br.com.quatroquatros.gestaoDeResiduos.controller;
 
 import br.com.quatroquatros.gestaoDeResiduos.dto.BaseResponseDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.bairro.BairroCadastroDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.bairro.BairroExibicaoDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.bairro.BairroUpdateDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.bairro.*;
+import br.com.quatroquatros.gestaoDeResiduos.dto.regiao.RegiaoMaisLixoDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.regiao.RegiaoMaisLixoExibicaoDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.rua.RuaExibicaoDto;
 import br.com.quatroquatros.gestaoDeResiduos.exception.ModelNotFoundException;
 import br.com.quatroquatros.gestaoDeResiduos.service.BairroService;
@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/bairros")
@@ -81,5 +83,12 @@ public class BairroController {
         }catch (ModelNotFoundException e){
             throw new ModelNotFoundException("bairro não encontrado");
         }
+    }
+
+    @PostMapping("/maisLixo")
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponseDto<List<BairroMaisLixoExibicaoDto[]>> buscarBairroMaisLixo(@RequestBody @Valid BairroMaisLixoDto bairroMaisLixoDto){
+        List<BairroMaisLixoExibicaoDto[]> resultado = service.bairroMaisLixo(bairroMaisLixoDto);
+        return new BaseResponseDto<>("busca de bairros que geraram mais lixo feita com sucesso!", resultado);
     }
 }

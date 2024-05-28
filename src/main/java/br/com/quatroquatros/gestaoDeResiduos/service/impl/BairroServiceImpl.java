@@ -1,8 +1,6 @@
 package br.com.quatroquatros.gestaoDeResiduos.service.impl;
 
-import br.com.quatroquatros.gestaoDeResiduos.dto.bairro.BairroCadastroDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.bairro.BairroExibicaoDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.bairro.BairroUpdateDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.bairro.*;
 import br.com.quatroquatros.gestaoDeResiduos.exception.ModelNotFoundException;
 import br.com.quatroquatros.gestaoDeResiduos.model.Bairro;
 import br.com.quatroquatros.gestaoDeResiduos.repository.BairroRepository;
@@ -11,6 +9,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BairroServiceImpl extends AbstractCrudService<Bairro, Long, BairroCadastroDto, BairroUpdateDto, BairroExibicaoDto> implements BairroService {
@@ -39,5 +40,22 @@ public class BairroServiceImpl extends AbstractCrudService<Bairro, Long, BairroC
         bairro.setNome(bairroDados.nome());
         return bairro;
 
+    }
+
+    @Override
+    public List<BairroMaisLixoExibicaoDto[]> bairroMaisLixo(BairroMaisLixoDto bairroMaisLixoDto) {
+        List<BairroMaisLixoExibicaoDto[]> bairros = new ArrayList<>();
+
+        List<Object[]> queryResult = bairroRepository.bairroMaisLixo(
+                bairroMaisLixoDto.bairroId(),
+                bairroMaisLixoDto.tipoColetaId()
+        );
+        for (Object[] row : queryResult) {
+            Double quantidade = (Double) row[0];
+            String bairro = (String) row[1];
+            String tipoLixo = (String) row[2];
+            bairros.add(new BairroMaisLixoExibicaoDto[]{new BairroMaisLixoExibicaoDto(quantidade, bairro, tipoLixo)});
+        }
+        return bairros;
     }
 }

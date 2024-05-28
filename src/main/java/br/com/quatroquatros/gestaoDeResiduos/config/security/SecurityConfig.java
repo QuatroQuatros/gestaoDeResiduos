@@ -36,6 +36,7 @@ public class SecurityConfig {
                         //Bairros
                         .requestMatchers(HttpMethod.GET, "api/bairros").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.GET, "api/bairros/{id}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/api/bairros/maisLixo").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.POST, "api/bairros").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/bairros/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/bairros/{id}").hasRole("ADMIN")
