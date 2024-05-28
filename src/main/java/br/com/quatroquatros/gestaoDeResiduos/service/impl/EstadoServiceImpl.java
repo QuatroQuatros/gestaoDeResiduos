@@ -1,9 +1,7 @@
 package br.com.quatroquatros.gestaoDeResiduos.service.impl;
 
 import br.com.quatroquatros.gestaoDeResiduos.dto.BaseResponseDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoCadastroDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoExibicaoDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoUpdateDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.estado.*;
 import br.com.quatroquatros.gestaoDeResiduos.dto.regiao.RegiaoCadastroDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.regiao.RegiaoExibicaoDto;
 import br.com.quatroquatros.gestaoDeResiduos.dto.usuario.UsuarioCadastroDto;
@@ -25,6 +23,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -74,6 +74,23 @@ public class EstadoServiceImpl extends AbstractCrudService<Estado, Long, EstadoC
         } else {
             throw new ModelNotFoundException("estado não encontrado!");
         }
+    }
+
+    @Override
+    public List<EstadoMaisLixoExibicaoDto[]> estadoMaisLixo(EstadoMaisLixoDto estadoMaisLixoDto){
+        List<EstadoMaisLixoExibicaoDto[]> estados = new ArrayList<>();
+
+        List<Object[]> queryResult = estadoRepository.estadoMaisLixo(
+                estadoMaisLixoDto.estadoId(),
+                estadoMaisLixoDto.tipoColetaId()
+        );
+        for (Object[] row : queryResult) {
+            Double quantidade = (Double) row[0];
+            String estado = (String) row[1];
+            String tipoLixo = (String) row[2];
+            estados.add(new EstadoMaisLixoExibicaoDto[]{new EstadoMaisLixoExibicaoDto(quantidade, estado, tipoLixo)});
+        }
+        return estados;
     }
 
 }

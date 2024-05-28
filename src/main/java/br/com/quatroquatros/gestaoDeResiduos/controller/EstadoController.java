@@ -2,9 +2,7 @@ package br.com.quatroquatros.gestaoDeResiduos.controller;
 
 
 import br.com.quatroquatros.gestaoDeResiduos.dto.BaseResponseDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoCadastroDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoExibicaoDto;
-import br.com.quatroquatros.gestaoDeResiduos.dto.estado.EstadoUpdateDto;
+import br.com.quatroquatros.gestaoDeResiduos.dto.estado.*;
 import br.com.quatroquatros.gestaoDeResiduos.exception.ModelNotFoundException;
 import br.com.quatroquatros.gestaoDeResiduos.service.EstadoService;
 import jakarta.validation.Valid;
@@ -13,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/estados")
@@ -98,8 +98,13 @@ public class EstadoController {
             throw new ModelNotFoundException("estado não encontrado");
 
         }
+    }
 
-
+    @PostMapping("/maisLixo")
+    @ResponseStatus(HttpStatus.OK)
+    public BaseResponseDto<List<EstadoMaisLixoExibicaoDto[]>> buscarEstadoMaisLixo(@RequestBody @Valid  EstadoMaisLixoDto estadoMaisLixoDto){
+        List<EstadoMaisLixoExibicaoDto[]> resultado = service.estadoMaisLixo(estadoMaisLixoDto);
+        return new BaseResponseDto<>("busca de estados que geraram mais lixo feita com sucesso!", resultado);
     }
 
 }
