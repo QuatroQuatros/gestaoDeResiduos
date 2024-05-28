@@ -41,9 +41,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/bairros/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/bairros/{id}").hasRole("ADMIN")
 
-                        //Coletadas
+                        //Coletas
                         .requestMatchers(HttpMethod.GET, "api/coletas").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.GET, "api/coletas/{id}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET, "api/coletas/agendamentos").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.POST, "api/coletas/agendar").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.PUT, "/api/coletas/{id}").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.DELETE, "/api/coletas/{id}").hasAnyRole("ADMIN", "USER")

@@ -14,6 +14,6 @@ public class HelloController {
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
     public BaseResponseDto<Object> hello(){
-        return new BaseResponseDto<>("batata2");
+        return new BaseResponseDto<>("batata");
     }
 }

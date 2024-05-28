@@ -16,9 +16,13 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/coletas")
@@ -99,5 +103,18 @@ public class ColetaRuaController {
         } catch (ModelNotFoundException e) {
             throw new ModelNotFoundException("coleta não encontrada");
         }
+    }
+
+    @GetMapping("/agendamentos")
+    @ResponseStatus(HttpStatus.CREATED)
+    public BaseResponseDto<List<ColetaRuaExibicaoDto>> buscarAgendamentosPorIntervaloDeTempo(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal){
+
+        return new BaseResponseDto<>(
+                "busca agendamentos com sucesso!",
+                service.buscarAgendamentosPorIntervaloDeTempo(dataInicial, dataFinal)
+        );
+
     }
 }

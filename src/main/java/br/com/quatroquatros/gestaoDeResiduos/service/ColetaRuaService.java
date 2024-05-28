@@ -9,9 +9,11 @@ import br.com.quatroquatros.gestaoDeResiduos.model.ColetaRua;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public interface ColetaRuaService extends CRUDInterface<ColetaRua, Long, ColetaRuaCadastroDto, ColetaRuaUpdateDto, ColetaRuaExibicaoDto> {
     ColetaRuaExibicaoDto marcarColetaComoConcluida(Long idColeta, ColetaRuaConcluidaDto coletaRuaConcluidaDados);
+    List<ColetaRuaExibicaoDto> buscarAgendamentosPorIntervaloDeTempo(LocalDate dataInicial, LocalDate dataFinal);
 
 
 

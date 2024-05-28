@@ -21,6 +21,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -71,11 +73,12 @@ public class ColetaRuaServiceImpl extends AbstractCrudService<ColetaRua, Long, C
         }
 
         AuthHelpers authHelpers = new AuthHelpers();
+        LocalDate dataAgendamento = coletaRuaDados.dataAgendamento() != null ? coletaRuaDados.dataAgendamento() : LocalDate.now();
 
         coletaRua.setUsuarioSolicitanteId(authHelpers.recuperarIdUsuario());
         coletaRua.setRuaId(coletaRuaDados.ruaId());
         coletaRua.setTipoColetaId(coletaRuaDados.tipoColetaId());
-        coletaRua.setDataAgendamento(LocalDate.now());
+        coletaRua.setDataAgendamento(dataAgendamento);
         coletaRua.setStatus(ColetaDiaStatus.AGENDADO);
 
         return toExibicaoDto(getRepository().save(coletaRua));
@@ -93,7 +96,17 @@ public class ColetaRuaServiceImpl extends AbstractCrudService<ColetaRua, Long, C
         //TODO: retornar DTO do LixoColetado
         lixoColetadoRepository.save(lixoColetado);
         return this.buscarPorId(idColeta);
+    }
 
+    @Override
+    public List<ColetaRuaExibicaoDto> buscarAgendamentosPorIntervaloDeTempo(LocalDate dataInicial, LocalDate dataFinal) {
+        List<ColetaRua> coletas = coletaRuaRepository.findByDataAgendamentoBetween(dataInicial, dataFinal);
+        return converterParaDto(coletas);
+    }
 
+    private List<ColetaRuaExibicaoDto> converterParaDto(List<ColetaRua> coletas) {
+        return coletas.stream()
+                .map(this::toExibicaoDto)
+                .collect(Collectors.toList());
     }
 }
