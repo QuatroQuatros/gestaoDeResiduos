@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -31,25 +33,28 @@ public class AuthController {
     private TokenService tokenService;
 
     @PostMapping("/login")
-    public BaseResponseDto<LoginResponseDto> login(@RequestBody @Valid LoginDto usuarioDados){
-        UsernamePasswordAuthenticationToken usernamePassword =
-                new UsernamePasswordAuthenticationToken(
-                        usuarioDados.email(),
-                        usuarioDados.senha()
-                );
+    public BaseResponseDto<LoginResponseDto> login(@RequestBody @Valid LoginDto usuarioDados) {
+        try {
+            UsernamePasswordAuthenticationToken usernamePassword =
+                    new UsernamePasswordAuthenticationToken(
+                            usuarioDados.email(),
+                            usuarioDados.senha()
+                    );
 
-        Authentication auth = authManager.authenticate(usernamePassword);
+            Authentication auth = authManager.authenticate(usernamePassword);
 
-        String token = tokenService.gerarToken((Usuario)auth.getPrincipal());
+            String token = tokenService.gerarToken((Usuario) auth.getPrincipal());
 
-        return new BaseResponseDto<>(
-                "login feito com sucesso!",
-                new LoginResponseDto(
-                        new UsuarioExibicaoDto((Usuario)auth.getPrincipal())
-                        ,token
-                )
-
-        );
+            return new BaseResponseDto<>(
+                    "login feito com sucesso!",
+                    new LoginResponseDto(
+                            new UsuarioExibicaoDto((Usuario) auth.getPrincipal()),
+                            token
+                    )
+            );
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException("Usuário não cadastrado ou credenciais inválidas.");
+        }
     }
 
     @PostMapping("/register")

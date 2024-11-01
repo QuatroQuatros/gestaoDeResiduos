@@ -34,7 +34,7 @@ public class UsuarioController {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<Page<UsuarioExibicaoDto>> listarUsuarios(Pageable paginacao){
+    public BaseResponseDto<Page<UsuarioExibicaoDto>> listar(Pageable paginacao){
         return new BaseResponseDto<>(
                 "busca de usuários feita com sucesso!",
                 service.listarTodos(paginacao)
@@ -43,7 +43,7 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BaseResponseDto<UsuarioExibicaoDto> buscarUsuarioPorId(@PathVariable Long id){
+    public BaseResponseDto<UsuarioExibicaoDto> buscarPorId(@PathVariable Long id){
         try{
             return new BaseResponseDto<>(
                     "busca de usuário feita com sucesso!",

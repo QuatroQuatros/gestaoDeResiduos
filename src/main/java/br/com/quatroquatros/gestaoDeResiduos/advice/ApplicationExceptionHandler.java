@@ -4,6 +4,7 @@ import br.com.quatroquatros.gestaoDeResiduos.exception.ModelNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,7 +35,8 @@ public class ApplicationExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public Map<String, String> handleIntegridadeDados(DataIntegrityViolationException error){
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put("erro", error.getMessage());
+        errorMap.put("erro", "usuário já cadastrado");
+        System.out.println(error.getMessage());
 
         return  errorMap;
     }
@@ -64,6 +66,17 @@ public class ApplicationExceptionHandler {
 
         return  errorMap;
     }
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(BadCredentialsException.class)
+    public Map<String, String> handleBadCredentials(BadCredentialsException error){
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("erro", "usuário não cadastrado ou credenciais inválidas");
+
+        return  errorMap;
+    }
+
+
+
 
 
 

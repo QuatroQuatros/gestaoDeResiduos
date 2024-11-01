@@ -1,0 +1,12 @@
+CREATE SEQUENCE IF NOT EXISTS USUARIOS_SEQ START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE USUARIOS (
+                          ID BIGINT DEFAULT NEXT VALUE FOR USUARIOS_SEQ NOT NULL,
+                          NOME VARCHAR(100) NOT NULL,
+                          EMAIL VARCHAR(100) UNIQUE NOT NULL,
+                          SENHA VARCHAR(100) NOT NULL,
+                          ROLE VARCHAR(50) DEFAULT 'USER',
+                          CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                          UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                          PRIMARY KEY (ID)
+);
